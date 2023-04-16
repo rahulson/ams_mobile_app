@@ -1,0 +1,31 @@
+const Colors = {
+    BH_Pink: '#FF41FF',
+    BH_Dark_Purple: '#5325B6',
+    BH_Light_Blue: '#1D7BBE',
+    BH_Dark_Blue: '#0C293E',
+    BLACK: '#000',
+    WHITE: '#FFFFFF',
+    LIGHT_GRAY: '#454545',
+    DARK_GRAY: '#222222',
+    ALMOST_BLACK: '#1C1C1C',
+    VERY_DARK: '#0B0B0B',
+    RNE_Lightish_Blue: '#82909C',
+    MENU_BACKGROUND_GRAY: '#484848',
+    BG_PURPLE: '#000640',
+    NEON_Purple: '#5325B6',
+    SELECTED_NEON_Purple: '#874FFF',
+    ERROR_RED: '#EC426B',
+    BLACK_BACKGROUND: '#0A0A08',
+    GRAY_BACKGROUND: '#383838',
+    Pink: '#FF41FF',
+    LIGHT_GrayBackground: '#202020',
+    GrayFontColor: '#696969',
+    LIGHT_RED_SHADE: '#F2F2F2',
+    LIGHT_RED: '#B6B6B5',
+    ORANGE: '#F38773',
+    LIGHT_MUTED_YELLOW: '#FFCB52',
+    OverlayBackgroundColor: 'rgba(0, 0, 0, 0.5)',
+  };
+  
+  export default Colors;
+  
