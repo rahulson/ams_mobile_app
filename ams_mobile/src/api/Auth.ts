@@ -1,4 +1,5 @@
-
+import { post } from './api'
+import { ApiConstants } from './ApiConstants';
 
 export interface NewUserPayload {
     username: string;
@@ -14,3 +15,7 @@ export type LoginFormPayload = {
     email: string;
     password: string;
 };
+
+export const login = (payload:LoginFormPayload) => {
+    return post(ApiConstants.LOGIN, payload)
+}

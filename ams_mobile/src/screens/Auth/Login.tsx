@@ -4,15 +4,17 @@ import { LogInForm } from '../../components/Form/LoginForm'
 import { LoginFormPayload } from "../../api";
 import { useNavigation } from '@react-navigation/native';
 import ScreenRoutesEnum from "../../constants/ScreenRoutesEnum";
+import { login } from '../../api/Auth'
 
 const LogIn = () => {
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
-    const onSubmit = (payload: LoginFormPayload) => {
+    const onSubmit = async(payload: LoginFormPayload) => {
         try {
-            
+            const response = await login(payload)
+            console.log("Data", response.data)
         } catch (error) {
-            
+            console.log("Data Error", error)
         }
 
     }

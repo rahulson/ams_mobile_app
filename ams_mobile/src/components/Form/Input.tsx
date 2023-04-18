@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
   InputStyle: {
     fontSize: 16,
     flexGrow: 1,
-    color: 'white',
     //fontFamily: 'Montserrat',
   },
 });
