@@ -5,5 +5,6 @@ const AUTH = "auth"
 
 export const ApiConstants = {
     BASE_URL: BASE_URL,
-    LOGIN: `${VERSION}/${AUTH}/login`
+    LOGIN: `${VERSION}/${AUTH}/login`,
+    REGISTER: `${VERSION}/${AUTH}/resgister` 
 }

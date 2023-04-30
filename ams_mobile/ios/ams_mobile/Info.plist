@@ -37,6 +37,12 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+  <key>NSCameraUsageDescription</key>
+    <string>This will allow you to take photos and submit them into the app.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This will allow you to share your location.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This will allow you to select photos and submit them into the app.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIAppFonts</key>

@@ -17,6 +17,7 @@ import {
   View,
 } from 'react-native';
 import AppNavigator from './src/navigation/AppNavigator'
+import UserProvider from './src/provider/UserProvider';
 import {
   Colors,
   DebugInstructions,
@@ -41,7 +42,9 @@ function App(): JSX.Element {
   };
 
   return (
+    <UserProvider>
     <AppNavigator/>
+    </UserProvider>
   );
 }
 
