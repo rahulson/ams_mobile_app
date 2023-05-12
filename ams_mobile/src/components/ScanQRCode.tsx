@@ -20,14 +20,6 @@ export interface ScanQrCodeProps {
  * Component description here for TypeScript tips.
  */
 export const ScanQrCode: Component<ScanQrCodeProps> = props => {
-    // Note: if you want your componeobservernt to refresh when data is updated in the store,
-    // wrap this component in `` like so:
-    // `export const ScanQrCode = observer(function ScanQrCode { ... })`
-
-    // Enable this line to retrieve data from the rootStore (or other store)
-    // const rootStore = useStores()
-    // or
-    // const { otherStore, userStore } = useStores()
 
     const { scannedQRString, hideQRModal, multiple = false } = props
 
@@ -56,10 +48,10 @@ export const ScanQrCode: Component<ScanQrCodeProps> = props => {
 
     const handleBarCodeScanned = ({ type, data }) => {
         // Alert.alert(`Bar code with type ${type} and data ${data} has been scanned!`)
-        // scannedQRString(data)
-        // if (!multiple) {
-        //     hideQRModal()
-        // }
+        scannedQRString(data)
+        if (!multiple) {
+            hideQRModal()
+        }
     }
 
     return (

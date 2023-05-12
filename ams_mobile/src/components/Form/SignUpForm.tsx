@@ -27,6 +27,26 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
     {label: 'Student', value: 'student'},
     {label: 'Teacher', value: 'teacher'}
   ]);
+  const [isShowDepartment, setShowDepartment] = useState(false);
+  const [department, setDepartment] = useState(null);
+  const [departmentList, setDepartmentList] = useState([
+    {label: 'Electronics and Communication', value: 'Electronics and Communication'},
+    {label: 'Information Technology', value: 'Information Technology'},
+    {label: 'Computer Science', value: 'Computer Science'}
+  ]);
+
+  const [isShowSemester, setShowSemester] = useState(false);
+  const [semester, setSemester] = useState(null);
+  const [semesterList, setSemesterList] = useState([
+    {label: 'Semester I', value: 'Semester I'},
+    {label: 'Semester II', value: 'Semester II'},
+    {label: 'Semester III', value: 'Semester III'},
+    {label: 'Semester IV', value: 'Semester IV'},
+    {label: 'Semester V', value: 'Semester V'},
+    {label: 'Semester VI', value: 'Semester VI'},
+    {label: 'Semester VII', value: 'Semester VII'},
+    {label: 'Semester VIII', value: 'Semester VIII'},
+  ]);
   const {
     control,
     handleSubmit,
@@ -116,12 +136,16 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <View style={{ marginBottom: hp(2), zIndex: 100 }}>
-            <AutocompleteSelect
-              placeholder="Department"
-              fetchResults={fetchDepartment}
-              onSelectResult={(department) => {
-                onChange(department.name)
-              }}
+            <DropDownPicker
+              open={isShowDepartment}
+              value={department}
+              items={departmentList}
+              setOpen={setShowDepartment}
+              setValue={setDepartment}
+              setItems={setDepartmentList}
+              placeholder='Department'
+              multiple={false}
+              onSelectItem={(item) => onChange(item.value)}
             />
             {errors['department'] && (
               <Text style={styles.ErrorTextStyle}>{errors['department'].message}</Text>
@@ -137,13 +161,16 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <View style={{ marginBottom: hp(2), zIndex: 90 }}>
-            <AutocompleteSelect
-              placeholder="Semester"
-              fetchResults={fetchSemester}
-              onSelectResult={(semester) => {
-                onChange([semester.name])
-                console.log("Name", [semester.name])
-              }}
+            <DropDownPicker
+              open={isShowSemester}
+              value={semester}
+              items={semesterList}
+              setOpen={setShowSemester}
+              setValue={setSemester}
+              setItems={setSemesterList}
+              placeholder='Semester'
+              multiple={false}
+              onSelectItem={(item) => onChange([item.value])}
             />
             {errors['semester'] && (
               <Text style={styles.ErrorTextStyle}>{errors['semester'].message}</Text>
