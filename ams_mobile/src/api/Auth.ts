@@ -1,14 +1,14 @@
 import { post } from './api'
 import { ApiConstants } from './ApiConstants';
 
-export interface NewUserPayload {
-    username: string;
+export interface SignupFormPayload {
+    firstname: string;
+    lastname: string;
+    department: string;
     email: string;
     password: string;
-    birthday: string;
-    phone: string;
-    gender: string;
-    referral_code?: string;
+    role: string;
+    semester?: string;
 }
 
 export type LoginFormPayload = {
@@ -18,4 +18,8 @@ export type LoginFormPayload = {
 
 export const login = (payload:LoginFormPayload) => {
     return post(ApiConstants.LOGIN, payload)
+}
+
+export const signup = (payload:SignupFormPayload) => {
+    return post(ApiConstants.REGISTER, payload)
 }

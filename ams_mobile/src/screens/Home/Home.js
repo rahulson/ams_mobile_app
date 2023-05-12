@@ -4,13 +4,26 @@ import { AMButton } from '../../components/Button/AMButton'
 import { STORE_USER_INFO } from '../../store/User.Action'
 import { useAppContext } from '../../provider/UserProvider'
 import { ScanQrCode } from '../../components/ScanQRCode'
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import QRCode from 'react-native-qrcode-svg';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const Home = () => {
 
     const appContext = useAppContext()
     const dispatch = appContext && appContext.dispatch
+    const state = appContext && appContext.state
+    const auth = state.auth
+    const [isShowQR, setShowQR] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [qrCodeString, setQRCodeString] = useState('')
+    const [items, setItems] = useState([
+        { label: 'Java', value: 'Java' },
+        { label: 'C programming', value: 'C programming' },
+        { label: 'Data Structure and Algorithm', value: 'Data Structure and Algorithm' },
+        { label: 'Ethical Hacking', value: 'Ethical Hacking' }
+    ]);
 
     const [showQRCode, toggleShowQRCode] = useState(false)
 
@@ -26,15 +39,76 @@ const Home = () => {
         toggleShowQRCode(true)
     }
 
+    const onTapGenerateQRButton = () => {
+        if (isShowQR) {
+            setShowQR(false)
+            setValue(null)
+            setQRCodeString('')
+        }
+        else {
+            setShowQR(true)
+            const body = {
+                teacherId: auth.id,
+                subject: value
+            }
+            setQRCodeString(JSON.stringify(body))
+        }
+    }
+
+    const renderQR = () => {
+        return (
+            <View style={{ width: '100%', justifyContent: 'center', alignItems: "center", marginVertical: hp(1) }}>
+                <QRCode
+                    size={250}
+                    value={qrCodeString}
+                />
+            </View>
+        )
+    }
+
+    const renderInfo = () => {
+        if (auth?.role === 'student') {
+            return (
+                <>
+                    <AMButton style={{ marginBottom: hp(1) }} onPress={onTapQRButton} text="Show QR Scanner" />
+                    <AMButton onPress={onTapButton} text="Logout" />
+                </>
+            )
+        }
+        else {
+            return (
+                <>
+                    <View style={{ marginBottom: hp(2), zIndex: 1000 }}>
+                        <DropDownPicker
+                            open={open}
+                            value={value}
+                            items={items}
+                            setOpen={setOpen}
+                            setValue={setValue}
+                            setItems={setItems}
+                            placeholder='Subject'
+                            multiple={false}
+                        />
+                    </View>
+                    <AMButton onPress={onTapGenerateQRButton} text={isShowQR ? 'Hide QR' : 'Generate QR'} />
+                    <AMButton onPress={onTapButton} text="Logout" />
+                    {isShowQR ? renderQR() : null}
+                </>
+            )
+        }
+    }
+
     return (
         <>
             <View style={styles.container}>
-                <AMButton style={{ marginBottom: hp(1) }} onPress={onTapQRButton} text="Show QR Scanner" />
-                <AMButton onPress={onTapButton} text="Logout" />
+                <Text style={{ marginBottom: hp(1), fontSize: hp(2.3) }}>{`Name: ${auth?.firstname}`}</Text>
+                <Text style={{ marginBottom: hp(1), fontSize: hp(2.3) }}>{`Role: ${auth?.role.toUpperCase()}`}</Text>
+                {renderInfo()}
             </View>
+
             {showQRCode && (
                 <ScanQrCode
-                    multiple={true}
+                    multiple={false}
                     hideQRModal={() => toggleShowQRCode(false)}
                     scannedQRString={setQRString}
                 />
@@ -46,8 +120,7 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
+        paddingHorizontal: wp(2)
     }
 })
 

@@ -1,22 +1,32 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
-import { LoginFormPayload } from '../../api';
+import { SignupFormPayload } from '../../api';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { CreateUserSchema } from '../../helper/Validation';
 import Colors from '../../styles/Colors';
 import { AMButton } from '../Button/AMButton';
 import { Input } from './Input';
+import AutocompleteSelect from '../AutocompleteSelect';
+import { DEPARTMENT, SEMESTER } from '../../constants/AppConstant';
+import isEmpty from 'lodash/isEmpty'
+import DropDownPicker from 'react-native-dropdown-picker';
 
 type LoginFormProps = {
-  onSubmit: (d: LoginFormPayload) => void;
+  onSubmit: (d: SignupFormPayload) => void;
   LoggingInError?: string | null;
   loading: boolean;
   onNavigate?: () => void;
 };
 
 export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: LoginFormProps) => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Student', value: 'student'},
+    {label: 'Teacher', value: 'teacher'}
+  ]);
   const {
     control,
     handleSubmit,
@@ -24,13 +34,32 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
   } = useForm({
     defaultValues: {
       firstname: '',
-      lastname: '',    
+      lastname: '',
+      department: '',
+      semester: [],
       email: '',
       password: '',
       confirmPassword: '',
+      role: ''
     },
     resolver: yupResolver(CreateUserSchema),
   });
+
+  const fetchDepartment = async (text: string) => {
+    if (isEmpty(text)) {
+      return DEPARTMENT
+    }
+    const arr = DEPARTMENT.filter((item) => item.name.toLowerCase().indexOf(text.toLowerCase()) !== -1)
+    return arr
+  }
+
+  const fetchSemester = async (text: string) => {
+    if (isEmpty(text)) {
+      return SEMESTER
+    }
+    const arr = SEMESTER.filter((item) => item.name.toLowerCase().indexOf(text.toLowerCase()) !== -1)
+    return arr
+  }
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, marginHorizontal: 14 }}>
@@ -47,7 +76,7 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
               onChangeText={onChange}
               onBlur={onBlur}
               value={value}
-              placeholder="FirstName"
+              placeholder="First Name"
               error={errors['firstname'] ? true : false}
             />
             {errors['firstname'] && (
@@ -56,7 +85,7 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
           </View>
         )}
         name="firstname"
-      /> 
+      />
       <Controller
         control={control}
         rules={{
@@ -70,7 +99,7 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
               onChangeText={onChange}
               onBlur={onBlur}
               value={value}
-              placeholder="LasttName"
+              placeholder="Lastt Name"
               error={errors['lastname'] ? true : false}
             />
             {errors['lastname'] && (
@@ -79,7 +108,50 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
           </View>
         )}
         name="lastname"
-      />  
+      />
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View style={{ marginBottom: hp(2), zIndex: 100 }}>
+            <AutocompleteSelect
+              placeholder="Department"
+              fetchResults={fetchDepartment}
+              onSelectResult={(department) => {
+                onChange(department.name)
+              }}
+            />
+            {errors['department'] && (
+              <Text style={styles.ErrorTextStyle}>{errors['department'].message}</Text>
+            )}
+          </View>
+        )}
+        name="department"
+      />
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View style={{ marginBottom: hp(2), zIndex: 90 }}>
+            <AutocompleteSelect
+              placeholder="Semester"
+              fetchResults={fetchSemester}
+              onSelectResult={(semester) => {
+                onChange([semester.name])
+                console.log("Name", [semester.name])
+              }}
+            />
+            {errors['semester'] && (
+              <Text style={styles.ErrorTextStyle}>{errors['semester'].message}</Text>
+            )}
+          </View>
+        )}
+        name="semester"
+      />
       <Controller
         control={control}
         rules={{
@@ -152,7 +224,31 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
         )}
         name="confirmPassword"
       />
-
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur } }) => (
+          <View style={{ marginBottom: hp(2), zIndex: 1000 }}>
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              placeholder='Role'
+              multiple={false}
+              onSelectItem={(item) => onChange(item.value)}
+            />
+            {errors['role'] && (
+              <Text style={styles.ErrorTextStyle}>{errors['role'].message}</Text>
+            )}
+          </View>
+        )}
+        name="role"
+      />
       {LoggingInError && (
         <View>
           <Text style={styles.ErrorTextStyle}>{LoggingInError}</Text>

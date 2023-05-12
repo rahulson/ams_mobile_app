@@ -3,6 +3,7 @@ import { Alert, Linking, TouchableOpacity, Platform, StyleSheet } from 'react-na
 import { check, PERMISSIONS, RESULTS } from 'react-native-permissions'
 import QRCodeScanner from 'react-native-qrcode-scanner'
 import Modal from 'react-native-modal'
+import { RNCamera } from 'react-native-camera';
 
 
 const isIos = Platform.OS === "ios"
@@ -31,7 +32,7 @@ export const ScanQrCode: Component<ScanQrCodeProps> = props => {
     const { scannedQRString, hideQRModal, multiple = false } = props
 
     useEffect(() => {
-        ; async () => {
+         async () => {
             const result = await check(isIos ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA)
             if (result === RESULTS.BLOCKED) {
                 Alert.alert(
@@ -55,10 +56,10 @@ export const ScanQrCode: Component<ScanQrCodeProps> = props => {
 
     const handleBarCodeScanned = ({ type, data }) => {
         // Alert.alert(`Bar code with type ${type} and data ${data} has been scanned!`)
-        scannedQRString(data)
-        if (!multiple) {
-            hideQRModal()
-        }
+        // scannedQRString(data)
+        // if (!multiple) {
+        //     hideQRModal()
+        // }
     }
 
     return (
@@ -72,6 +73,7 @@ export const ScanQrCode: Component<ScanQrCodeProps> = props => {
             <QRCodeScanner
                 onRead={handleBarCodeScanned}
                 reactivate={multiple}
+                flashMode={RNCamera.Constants.FlashMode.torch}
                 reactivateTimeout={2500}
                 topContent={
                     <TouchableOpacity onPress={() => hideQRModal()} style={styles.button}></TouchableOpacity>

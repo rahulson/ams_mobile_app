@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { ApiConstants } from './ApiConstants'
-export const API = axios.create({ baseURL: ApiConstants.BASE_URL });
+export const API = axios.create({ baseURL: ApiConstants.BASE_URL, validateStatus: function (status) {
+  return status == 200;
+} });
 
 export const get = async (endpoint: string, options = {}) => {
   return API.get(endpoint, options).catch((e) => e.toJSON());
