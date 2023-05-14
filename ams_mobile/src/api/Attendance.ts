@@ -1,7 +1,7 @@
 import { post } from './api'
 import { ApiConstants } from './ApiConstants';
 
-export type AttendancePayload {
+export type AttendancePayload = {
     userId: string;
     subject: string;
     teacherId: string;
