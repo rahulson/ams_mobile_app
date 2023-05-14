@@ -7,6 +7,7 @@ import { ScanQrCode } from '../../components/ScanQRCode'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import QRCode from 'react-native-qrcode-svg';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { addAttendance, AttendancePayload } from '../../api/Attendance'
 
 const Home = () => {
 
@@ -33,6 +34,23 @@ const Home = () => {
 
     const setQRString = (code) => {
         console.log("QR Code", code)
+        const payload = JSON.parse(code)
+        const attendancePayload = {
+            userId: auth.id,
+            subject: payload.subject,
+            teacherId: payload.teacherId
+        }
+        onSubmit(attendancePayload)
+    }
+
+    const onSubmit = async(payload) => {
+        try {
+            const response = await addAttendance(payload)
+            console.log("Data", response.data)
+        } catch (error) {
+            console.log("Data Error", error)
+        }
+
     }
 
     const onTapQRButton = () => {

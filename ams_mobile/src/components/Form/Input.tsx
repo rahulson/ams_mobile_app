@@ -30,7 +30,7 @@ export const Input = ({
       />
       {password && (
         <TouchableOpacity
-          style={{ width: 24, height: 24 }}
+          style={{ width: 24, height: 24, marginTop: 11 }}
           onPress={() => setShowPassword(!showPassword)}>
           {showPassword ? (
             <MaterialCommunityIcons name="eye-outline" size={24} color="#999999" />
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     flexDirection: 'row',
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 12,
   },
   InputContainterError: {
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     flexDirection: 'row',
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 12,
   },
   InputStyle: {

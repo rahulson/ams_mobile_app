@@ -12,6 +12,7 @@ import AutocompleteSelect from '../AutocompleteSelect';
 import { DEPARTMENT, SEMESTER } from '../../constants/AppConstant';
 import isEmpty from 'lodash/isEmpty'
 import DropDownPicker from 'react-native-dropdown-picker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 type LoginFormProps = {
   onSubmit: (d: SignupFormPayload) => void;
@@ -82,7 +83,7 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, marginHorizontal: 14 }}>
+    <KeyboardAwareScrollView style={{ flex: 1, marginHorizontal: 14 }}>
       <Controller
         control={control}
         rules={{
@@ -289,7 +290,7 @@ export const SignUpForm = ({ onSubmit, LoggingInError, loading, onNavigate }: Lo
         }}>
         <AMButton onPress={handleSubmit(onSubmit)} text="SignUp" />
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 
